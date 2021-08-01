@@ -9,7 +9,7 @@ const routes: Routes = [
   {path: '', component: ListComentariosComponent},
   {path: 'agregar', component: AgregarEditarComentarioComponent},
   {path: 'editar/:id', component: AgregarEditarComentarioComponent},
-  {path: 'ver', component: VerComentarioComponent},
+  {path: 'ver/:id', component: VerComentarioComponent},
   
   {path: '**', redirectTo: '',pathMatch: 'full'} // si el path es invalido lo redirecciono al inicio, esta ruta siempre va al final
 
