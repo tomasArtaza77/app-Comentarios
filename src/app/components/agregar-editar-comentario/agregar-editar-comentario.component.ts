@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Comentario } from 'src/app/interfaces/Comentarios';
+import { ComentarioService } from 'src/app/service/comentario.service';
 
 @Component({
   selector: 'app-agregar-editar-comentario',
@@ -13,7 +15,8 @@ export class AgregarEditarComentarioComponent implements OnInit {
 
   agregarComentario: FormGroup;
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder, private _comentarioService: ComentarioService,
+              private router: Router) { 
     this.agregarComentario = this.fb.group({  // fb.group recibe objetos agrupados
       titulo: ['',Validators.required],
       creador: ['',Validators.required],
@@ -26,14 +29,20 @@ export class AgregarEditarComentarioComponent implements OnInit {
   }
 
   agregar(){
-    console.log(this.agregarComentario); 
+    
     const comentario: Comentario = {
       titulo: this.agregarComentario.get('titulo')?.value,
-      creador: this.agregarComentario.get('titulo')?.value,
-      texto: this.agregarComentario.get('titulo')?.value,
+      creador: this.agregarComentario.get('creador')?.value,
+      texto: this.agregarComentario.get('texto')?.value,
       fechaCreacion: new Date
     }
-    console.log(comentario);
+
+    this._comentarioService.saveComentario(comentario).subscribe(data => {
+      this.router.navigate(['/']);
+    }, error =>{
+      console.log(error);
+    })
+
   }
 
 }
